@@ -50,7 +50,9 @@ class UpdateWorker
   def process_update_orgs
     processed = {}
 
-    gather_today_org.map do |slug|
+    # gather_today_org.map do |slug|
+    slugs = %w(dsc hackersir fivedaycamp golang rubytaiwan)
+    slugs.map do |slug|
       processed[slug] = send_update_request(slug) unless processed[slug]
     end
 
@@ -80,9 +82,9 @@ class UpdateWorker
   end
 end
 
-# begin
+begin
   UpdateWorker.new(ENV['CONFIG_FILE']).call
   puts 'STATUS: SUCCESS'
-# rescue => e
-#   puts "STATUS: ERROR (#{e.inspect})"
-# end
+rescue => e
+  puts "STATUS: ERROR (#{e.inspect})"
+end
