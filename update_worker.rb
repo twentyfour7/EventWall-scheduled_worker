@@ -15,8 +15,8 @@ class UpdateWorker
   end
 
   def call
-    process_update_orgs
     process_update_nthu
+    process_update_orgs
   end
 
   private
@@ -41,8 +41,9 @@ class UpdateWorker
   def process_update_nthu
     categories = %w(art student acdemic)
     categories.each do |category|
+      puts "UPDATING: NTHU #{category}"
       response = HTTP.get("#{@config.KKTIX_EVENT_API}/load/nthu/#{category}")
-      raise "API failed: #{update_url}" if response.status >= 400
+      # raise "API failed: #{category}" if response.status >= 400
     end
   end
 
@@ -61,21 +62,21 @@ class UpdateWorker
   end
 
   def send_update_request(slug)
-    puts "UPDATING: #{slug}"
+    puts "UPDATING: KKTIX #{slug}"
     response = HTTP.get("#{@config.KKTIX_EVENT_API}/load/kk/#{slug}")
-    raise "API failed: #{slug}" if response.status >= 400
+    # raise "API failed: #{slug}" if response.status >= 400
     true
   end
 
   def gather_today_org
-    puts 'UPDATING: KKTIX'
+    puts 'Gathering slugs from KKTIX'
     slugs = KktixEvent::KktixApi.events.map { |event| parse_org_slug(event[:url]) }
     slugs
   end
 
   def parse_org_slug(url)
     match_data = url.match('(\w+)\.kktix\.cc')
-    match_data.captures[0].lower
+    match_data.captures[0].downcase
   end
 end
 

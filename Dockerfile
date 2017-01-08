@@ -4,6 +4,8 @@ WORKDIR /worker
 
 ADD Gemfile .
 ADD Gemfile.lock .
+RUN apk add --update libxml2-dev libxslt-dev
+RUN bundle config build.nokogiri --use-system-libraries
 RUN bundle install
 
 ADD update_worker.rb .
