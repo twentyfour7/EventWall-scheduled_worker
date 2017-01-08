@@ -2,17 +2,17 @@
 
 # Docker tasks
 namespace :docker do
-  USERNAME = 'shannywu'.freeze
-  WORKER = 'update_worker.rb'.freeze
-  IMAGE = 'eventwall_update'.freeze
-  VERSION = '0.2.0'.freeze
-  CONFIG_FILE = 'config.yml'.freeze
+  USERNAME = 'shannywu'
+  WORKER = 'update_worker.rb'
+  IMAGE = 'eventwall_update'
+  VERSION = '0.2.0'
+  CONFIG_FILE = 'config.yml'
 
   desc 'Run the Docker image as a worker'
   task :run do
     puts "\nRUNNING WORKER WITH LOCAL CONTEXT"
     sh "docker run -e \"CONFIG_FILE=#{CONFIG_FILE}\" --rm -it " \
-       "-v \"$PWD\":/worker -w /worker " \
+       '-v \"$PWD\":/worker -w /worker ' \
        "#{USERNAME}/#{IMAGE}:#{VERSION} ruby #{WORKER}"
   end
 
@@ -47,7 +47,7 @@ namespace :queue do
 
   config = OpenStruct.new YAML.load(File.read('config.yml'))
 
-  desc "Create SQS queue for Shoryuken"
+  desc 'Create SQS queue for Shoryuken'
   task :create do
     sqs = Aws::SQS::Client.new(region: config.AWS_REGION)
 
@@ -64,8 +64,8 @@ namespace :queue do
     sqs = Aws::SQS::Client.new(region: config.AWS_REGION)
 
     begin
-      url = sqs.get_queue_url({ queue_name: config.UPDATE_QUEUE })
-      queue = sqs.purge_queue({ queue_url: url.queue_url})
+      url = sqs.get_queue_url(queue_name: config.UPDATE_QUEUE)
+      queue = sqs.purge_queue(queue_url: url.queue_url)
       puts "Queue #{config.UPDATE_QUEUE} purged"
     rescue => e
       puts "Error purging queue: #{e}"

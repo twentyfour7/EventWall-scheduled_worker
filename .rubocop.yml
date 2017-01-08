@@ -1,0 +1,7 @@
+---
+AllCops:
+  TargetRubyVersion: 2.3
+
+Style/LineLength:
+  Enabled: true
+  Max: 120

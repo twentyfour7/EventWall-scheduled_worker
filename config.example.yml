@@ -1,0 +1,14 @@
+---
+development:
+  AWS_ACCESS_KEY_ID: ''
+  AWS_SECRET_ACCESS_KEY: ''
+  AWS_REGION: 'us-west-1'
+  EVENT_QUEUE: ''
+  KKTIX_EVENT_API: 'http://kktix-event-api.herokuapp.com/api/v0.1'
+
+test:
+  AWS_ACCESS_KEY_ID: ''
+  AWS_SECRET_ACCESS_KEY: ''
+  AWS_REGION: 'us-west-1'
+  EVENT_QUEUE: ''
+  KKTIX_EVENT_API: 'http://kktix-event-api.herokuapp.com/api/v0.1'
